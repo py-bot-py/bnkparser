@@ -45,7 +45,7 @@ void HIRC(u_int8_t *data, unsigned start, unsigned size)
     printf("Number of objects: %u\n", number_of_objects);
 #endif
 
-    for(int i=0; i<number_of_objects; i++)
+    for(int i=1; i<number_of_objects+1; i++)
     {
         u_int8_t obj_type;
         unsigned obj_size, obj_id, obj_start=ifp;
@@ -59,83 +59,84 @@ void HIRC(u_int8_t *data, unsigned start, unsigned size)
         switch(obj_type)
         {
             case SETTINGS:
-                PRINT_OBJ(i, obj_start, SETTINGS);
+                PRINT_OBJ(i, number_of_objects, obj_start, SETTINGS);
                 PARSE_SETTINGS(data, obj_start);
                 break;
             case SFX_OR_VOICE:
-                PRINT_OBJ(i, obj_start, SFX_OR_VOICE);
+                PRINT_OBJ(i, number_of_objects, obj_start, SFX_OR_VOICE);
                 PARSE_SFX_OR_VOICE(data, obj_start);
                 break;
             case EVENT_ACTION:
-                PRINT_OBJ(i, obj_start, EVENT_ACTION);
+                PRINT_OBJ(i, number_of_objects, obj_start, EVENT_ACTION);
                 PARSE_EVENT_ACTION(data, obj_start);
                 break;
             case EVENT:
-                PRINT_OBJ(i, obj_start, EVENT);
+                PRINT_OBJ(i, number_of_objects, obj_start, EVENT);
                 PARSE_EVENT(data, obj_start);
                 break;
             case RANDOM_OR_SEQUENCE_CONTAINER:
-                PRINT_OBJ(i, obj_start, RANDOM_OR_SEQUENCE_CONTAINER);
+                PRINT_OBJ(i, number_of_objects, obj_start, RANDOM_OR_SEQUENCE_CONTAINER);
                 PARSE_RANDOM_OR_SEQUENCE_CONTAINER(data, obj_start);
                 break;
             case SWITCH_CONTAINER:
-                PRINT_OBJ(i, obj_start, SWITCH_CONTAINER);
+                PRINT_OBJ(i, number_of_objects, obj_start, SWITCH_CONTAINER);
                 PARSE_SWITCH_CONTAINER(data, obj_start);
                 break;
             case ACTOR_MIXER:
-                PRINT_OBJ(i, obj_start, ACTOR_MIXER);
+                PRINT_OBJ(i, number_of_objects, obj_start, ACTOR_MIXER);
                 PARSE_ACTOR_MIXER(data, obj_start);
                 break;
             case AUDIO_BUS:
-                PRINT_OBJ(i, obj_start, AUDIO_BUS);
+                PRINT_OBJ(i, number_of_objects, obj_start, AUDIO_BUS);
                 PARSE_AUDIO_BUS(data, obj_start);
                 break;
             case BLEND_CONTAINER:
-                PRINT_OBJ(i, obj_start, BLEND_CONTAINER);
+                PRINT_OBJ(i, number_of_objects, obj_start, BLEND_CONTAINER);
                 PARSE_BLEND_CONTAINER(data, obj_start);
                 break;
             case MUSIC_SEGMENT:
-                PRINT_OBJ(i, obj_start, MUSIC_SEGMENT);
+                PRINT_OBJ(i, number_of_objects, obj_start, MUSIC_SEGMENT);
                 PARSE_MUSIC_SEGMENT(data, obj_start);
                 break;
             case MUSIC_TRACK:
-                PRINT_OBJ(i, obj_start, MUSIC_TRACK);
+                PRINT_OBJ(i, number_of_objects, obj_start, MUSIC_TRACK);
                 PARSE_MUSIC_TRACK(data, obj_start);
                 break;
             case MUSIC_SWITCH_CONTAINER:
-                PRINT_OBJ(i, obj_start, MUSIC_SWITCH_CONTAINER);
+                PRINT_OBJ(i, number_of_objects, obj_start, MUSIC_SWITCH_CONTAINER);
                 PARSE_MUSIC_SWITCH_CONTAINER(data, obj_start);
                 break;
             case MUSIC_PLAYLIST_CONTAINER:
-                PRINT_OBJ(i, obj_start, MUSIC_PLAYLIST_CONTAINER);
+                PRINT_OBJ(i, number_of_objects, obj_start, MUSIC_PLAYLIST_CONTAINER);
                 PARSE_MUSIC_PLAYLIST_CONTAINER(data, obj_start);
                 break;
             case ATTENUATION:
-                PRINT_OBJ(i, obj_start, ATTENUATION);
+                PRINT_OBJ(i, number_of_objects, obj_start, ATTENUATION);
                 PARSE_ATTENUATION(data, obj_start);
                 break;
             case DIALOGUE_EVENT:
-                PRINT_OBJ(i, obj_start, DIALOGUE_EVENT);
+                PRINT_OBJ(i, number_of_objects, obj_start, DIALOGUE_EVENT);
                 PARSE_DIALOGUE_EVENT(data, obj_start);
                 break;
             case MOTION_BUS:
-                PRINT_OBJ(i, obj_start, MOTION_BUS);
+                PRINT_OBJ(i, number_of_objects, obj_start, MOTION_BUS);
                 PARSE_MOTION_BUS(data, obj_start);
                 break;
             case MOTION_FX:
-                PRINT_OBJ(i, obj_start, MOTION_FX);
+                PRINT_OBJ(i, number_of_objects, obj_start, MOTION_FX);
                 PARSE_MOTION_FX(data, obj_start);
                 break;
             case EFFECT:
-                PRINT_OBJ(i, obj_start, EFFECT);
+                PRINT_OBJ(i, number_of_objects, obj_start, EFFECT);
                 PARSE_EFFECT(data, obj_start);
                 break;
             case AUXILIARY_BUS:
-                PRINT_OBJ(i, obj_start, AUXILIARY_BUS);
+                PRINT_OBJ(i, number_of_objects, obj_start, AUXILIARY_BUS);
                 PARSE_AUXILIARY_BUS(data, obj_start);
                 break;
         }
 
         ifp = data_start + obj_size;
     }
+    printf("\n");
 }

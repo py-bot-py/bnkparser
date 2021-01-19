@@ -24,11 +24,11 @@
 void HIRC(u_int8_t *data, unsigned start, unsigned size);
 
 
-#define PRINT_OBJ(_,__,___) ;
+#define PRINT_OBJ(_,__,___,____) ;
 #ifdef DEBUG
 #undef PRINT_OBJ
-#define PRINT_OBJ(count, obj_start, type) \
-    printf("Obj#%d @%d: %s\n", count, obj_start, #type);
+#define PRINT_OBJ(count, total, obj_start, type) \
+    printf("%c[2K\rParsing obj#%d/%d @ %d: %s", 27, count, total, obj_start, #type);
 #endif
 
 
