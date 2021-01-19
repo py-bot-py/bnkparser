@@ -8,15 +8,11 @@
 #include <string.h>
 
 #include "BNK_Parser.h"
-#include "HIRC.h"
 
 
-u_int8_t* readfile(FILE* fp, size_t *size);
-void extract_sections(u_int8_t *data, size_t size);
+u_int8_t* readfile(FILE* fp);
+void extract_sections(u_int8_t *data);
 short UINT32_S = sizeof(u_int32_t);
-
-
-void HIRC(u_int8_t *data, unsigned start, unsigned size);
 
 
 int main(int argc, char** argv)
@@ -34,30 +30,27 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    
-    size_t size;
-    u_int8_t* data = readfile(fp, &size);
+    u_int8_t* data = readfile(fp);
     fclose(fp);
     
-    extract_sections(data, size);
-
+    extract_sections(data);
     free(data);
 }
 
 
-u_int8_t* readfile(FILE* fp, size_t *size)
+u_int8_t* readfile(FILE* fp)
 {
-    *size = 0;
-    while( getc(fp) != -1 ) (*size)++;
+    g_fsize = 0;
+    while( getc(fp) != -1 ) g_fsize++;
     
 #ifdef DEBUG
-    printf("Filesize: %lu\n", *size);
+    printf("Filesize: %lu\n", g_fsize);
 #endif
 
-    u_int8_t *data = malloc(sizeof(u_int8_t) * *size);
+    u_int8_t *data = malloc(sizeof(u_int8_t) * g_fsize);
 
     rewind(fp);
-    fread(data, *size, 1, fp);
+    fread(data, g_fsize, 1, fp);
     
 #ifdef DEBUG
     printf("Loaded file successfully\n");
@@ -67,15 +60,15 @@ u_int8_t* readfile(FILE* fp, size_t *size)
 }
 
 
-void extract_sections(u_int8_t *data, size_t size)
+void extract_sections(u_int8_t *data)
 {
 #ifdef DEBUG
     printf("Reading sections\n");
 #endif
 
-    for(unsigned ifp=0; ifp < size; ifp++)
+    for(g_ifp=0; g_ifp < g_fsize; g_ifp++)
     {
-        char identifier[4] = {data[ifp], data[ifp+1], data[ifp+2], data[ifp+3]};
+        char identifier[4] = {data[g_ifp], data[g_ifp+1], data[g_ifp+2], data[g_ifp+3]};
         
         if( strcmp("BKHD", identifier) == 0 )
         {
@@ -87,20 +80,27 @@ void extract_sections(u_int8_t *data, size_t size)
              * uint32: always zero
              * uint32: always zero
             */
-            size_t section_start = ifp;
-            unsigned section_size, version, file_id;
-            ifp += 4;
-            COPY(section_size, data, unsigned, ifp);
-            COPY(version, data, unsigned, ifp);
-            COPY(file_id, data, unsigned, ifp);
+
+            BKHD_Section* bkhd = malloc(sizeof(BKHD_Section));
+            
+            size_t section_start = g_ifp;
+            
+            g_ifp += 4;
+
+            bkhd->location = section_start;
+            COPY(bkhd->size, data, unsigned, g_ifp);
+            COPY(bkhd->version, data, unsigned, g_ifp);
+            COPY(bkhd->id, data, unsigned, g_ifp);
+
+            g_bnk.BKHD = bkhd;
 
 #ifdef DEBUG
             printf("\nSection: %s @ %ld\n", identifier, section_start);
-            printf("Section size: %u\n", section_size);
-            printf("BNK version: %u\n", version);
-            printf("File ID: %u\n", file_id);
+            printf("Section size: %u\n", g_bnk.BKHD->size);
+            printf("BNK version: %u\n", g_bnk.BKHD->version);
+            printf("File ID: %u\n", g_bnk.BKHD->id);
 #endif
-            ifp = section_start + section_size;
+            g_ifp = section_start + bkhd->size;
         }
 
         else if( strcmp("DIDX", identifier) == 0 ) puts("DIDX");
@@ -110,16 +110,15 @@ void extract_sections(u_int8_t *data, size_t size)
 
         else if( strcmp("HIRC", identifier) == 0 )
         {
-            size_t section_start = ifp;
-            ifp += 4;
+            size_t section_start = g_ifp;
+            g_ifp += 4;
             unsigned section_size;
-            COPY(section_size, data, unsigned, ifp);
+            COPY(section_size, data, unsigned, g_ifp);
             HIRC(data, section_start, section_size);
-            ifp = section_start + section_size;
+            g_ifp = section_start + section_size;
         }
 
         else if( strcmp("STID", identifier) == 0 ) puts("STID");
         else if( strcmp("STMG", identifier) == 0 ) puts("STMG");
-
     }
 }

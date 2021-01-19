@@ -1,25 +1,24 @@
-#include "HIRC.h"
 #include "BNK_Parser.h"
 
-void HIRC_SETTINGS(u_int8_t* data, int ifp);
-void HIRC_SFX_OR_VOICE(u_int8_t* data, int ifp);
-void HIRC_EVENT_ACTION(u_int8_t* data, int ifp);
-void HIRC_EVENT(u_int8_t* data, int ifp);
-void HIRC_RANDOM_OR_SEQUENCE_CONTAINER(u_int8_t* data, int ifp);
-void HIRC_SWITCH_CONTAINER(u_int8_t* data, int ifp);
-void HIRC_ACTOR_MIXER(u_int8_t* data, int ifp);
-void HIRC_AUDIO_BUS(u_int8_t* data, int ifp);
-void HIRC_BLEND_CONTAINER(u_int8_t* data, int ifp);
-void HIRC_MUSIC_SEGMENT(u_int8_t* data, int ifp);
-void HIRC_MUSIC_TRACK(u_int8_t* data, int ifp);
-void HIRC_MUSIC_SWITCH_CONTAINER(u_int8_t* data, int ifp);
-void HIRC_MUSIC_PLAYLIST_CONTAINER(u_int8_t* data, int ifp);
-void HIRC_ATTENUATION(u_int8_t* data, int ifp);
-void HIRC_DIALOGUE_EVENT(u_int8_t* data, int ifp);
-void HIRC_MOTION_BUS(u_int8_t* data, int ifp);
-void HIRC_MOTION_FX(u_int8_t* data, int ifp);
-void HIRC_EFFECT(u_int8_t* data, int ifp);
-void HIRC_AUXILIARY_BUS(u_int8_t* data, int ifp);
+void PARSE_SETTINGS(u_int8_t* data, unsigned ifp){}
+void PARSE_SFX_OR_VOICE(u_int8_t* data, unsigned ifp){}
+void PARSE_EVENT_ACTION(u_int8_t* data, unsigned ifp){}
+void PARSE_EVENT(u_int8_t* data, unsigned ifp){}
+void PARSE_RANDOM_OR_SEQUENCE_CONTAINER(u_int8_t* data, unsigned ifp){}
+void PARSE_SWITCH_CONTAINER(u_int8_t* data, unsigned ifp){}
+void PARSE_ACTOR_MIXER(u_int8_t* data, unsigned ifp){}
+void PARSE_AUDIO_BUS(u_int8_t* data, unsigned ifp){}
+void PARSE_BLEND_CONTAINER(u_int8_t* data, unsigned ifp){}
+void PARSE_MUSIC_SEGMENT(u_int8_t* data, unsigned ifp){}
+void PARSE_MUSIC_TRACK(u_int8_t* data, unsigned ifp){}
+void PARSE_MUSIC_SWITCH_CONTAINER(u_int8_t* data, unsigned ifp){}
+void PARSE_MUSIC_PLAYLIST_CONTAINER(u_int8_t* data, unsigned ifp){}
+void PARSE_ATTENUATION(u_int8_t* data, unsigned ifp){}
+void PARSE_DIALOGUE_EVENT(u_int8_t* data, unsigned ifp){}
+void PARSE_MOTION_BUS(u_int8_t* data, unsigned ifp){}
+void PARSE_MOTION_FX(u_int8_t* data, unsigned ifp){}
+void PARSE_EFFECT(u_int8_t* data, unsigned ifp){}
+void PARSE_AUXILIARY_BUS(u_int8_t* data, unsigned ifp){}
 
 
 void HIRC(u_int8_t *data, unsigned start, unsigned size)
@@ -34,7 +33,7 @@ void HIRC(u_int8_t *data, unsigned start, unsigned size)
      * } END FOR
      */
     
-    int ifp = start + 4 + UINT32_S;
+    unsigned ifp = start + 4 + UINT32_S;
 
     unsigned number_of_objects;
     COPY(number_of_objects, data, unsigned, ifp);
@@ -61,103 +60,82 @@ void HIRC(u_int8_t *data, unsigned start, unsigned size)
         {
             case SETTINGS:
                 PRINT_OBJ(i, obj_start, SETTINGS);
-                HIRC_SETTINGS(data, obj_start);
+                PARSE_SETTINGS(data, obj_start);
                 break;
             case SFX_OR_VOICE:
                 PRINT_OBJ(i, obj_start, SFX_OR_VOICE);
-                HIRC_SFX_OR_VOICE(data, obj_start);
+                PARSE_SFX_OR_VOICE(data, obj_start);
                 break;
             case EVENT_ACTION:
                 PRINT_OBJ(i, obj_start, EVENT_ACTION);
-                HIRC_EVENT_ACTION(data, obj_start);
+                PARSE_EVENT_ACTION(data, obj_start);
                 break;
             case EVENT:
                 PRINT_OBJ(i, obj_start, EVENT);
-                HIRC_EVENT(data, obj_start);
+                PARSE_EVENT(data, obj_start);
                 break;
             case RANDOM_OR_SEQUENCE_CONTAINER:
                 PRINT_OBJ(i, obj_start, RANDOM_OR_SEQUENCE_CONTAINER);
-                HIRC_RANDOM_OR_SEQUENCE_CONTAINER(data, obj_start);
+                PARSE_RANDOM_OR_SEQUENCE_CONTAINER(data, obj_start);
                 break;
             case SWITCH_CONTAINER:
                 PRINT_OBJ(i, obj_start, SWITCH_CONTAINER);
-                HIRC_SWITCH_CONTAINER(data, obj_start);
+                PARSE_SWITCH_CONTAINER(data, obj_start);
                 break;
             case ACTOR_MIXER:
                 PRINT_OBJ(i, obj_start, ACTOR_MIXER);
-                HIRC_ACTOR_MIXER(data, obj_start);
+                PARSE_ACTOR_MIXER(data, obj_start);
                 break;
             case AUDIO_BUS:
                 PRINT_OBJ(i, obj_start, AUDIO_BUS);
-                HIRC_AUDIO_BUS(data, obj_start);
+                PARSE_AUDIO_BUS(data, obj_start);
                 break;
             case BLEND_CONTAINER:
                 PRINT_OBJ(i, obj_start, BLEND_CONTAINER);
-                HIRC_BLEND_CONTAINER(data, obj_start);
+                PARSE_BLEND_CONTAINER(data, obj_start);
                 break;
             case MUSIC_SEGMENT:
                 PRINT_OBJ(i, obj_start, MUSIC_SEGMENT);
-                HIRC_MUSIC_SEGMENT(data, obj_start);
+                PARSE_MUSIC_SEGMENT(data, obj_start);
                 break;
             case MUSIC_TRACK:
                 PRINT_OBJ(i, obj_start, MUSIC_TRACK);
-                HIRC_MUSIC_TRACK(data, obj_start);
+                PARSE_MUSIC_TRACK(data, obj_start);
                 break;
             case MUSIC_SWITCH_CONTAINER:
                 PRINT_OBJ(i, obj_start, MUSIC_SWITCH_CONTAINER);
-                HIRC_MUSIC_SWITCH_CONTAINER(data, obj_start);
+                PARSE_MUSIC_SWITCH_CONTAINER(data, obj_start);
                 break;
             case MUSIC_PLAYLIST_CONTAINER:
                 PRINT_OBJ(i, obj_start, MUSIC_PLAYLIST_CONTAINER);
-                HIRC_MUSIC_PLAYLIST_CONTAINER(data, obj_start);
+                PARSE_MUSIC_PLAYLIST_CONTAINER(data, obj_start);
                 break;
             case ATTENUATION:
                 PRINT_OBJ(i, obj_start, ATTENUATION);
-                HIRC_ATTENUATION(data, obj_start);
+                PARSE_ATTENUATION(data, obj_start);
                 break;
             case DIALOGUE_EVENT:
                 PRINT_OBJ(i, obj_start, DIALOGUE_EVENT);
-                HIRC_DIALOGUE_EVENT(data, obj_start);
+                PARSE_DIALOGUE_EVENT(data, obj_start);
                 break;
             case MOTION_BUS:
                 PRINT_OBJ(i, obj_start, MOTION_BUS);
-                HIRC_MOTION_BUS(data, obj_start);
+                PARSE_MOTION_BUS(data, obj_start);
                 break;
             case MOTION_FX:
                 PRINT_OBJ(i, obj_start, MOTION_FX);
-                HIRC_MOTION_FX(data, obj_start);
+                PARSE_MOTION_FX(data, obj_start);
                 break;
             case EFFECT:
                 PRINT_OBJ(i, obj_start, EFFECT);
-                HIRC_EFFECT(data, obj_start);
+                PARSE_EFFECT(data, obj_start);
                 break;
             case AUXILIARY_BUS:
                 PRINT_OBJ(i, obj_start, AUXILIARY_BUS);
-                HIRC_AUXILIARY_BUS(data, obj_start);
+                PARSE_AUXILIARY_BUS(data, obj_start);
                 break;
         }
 
         ifp = data_start + obj_size;
     }
 }
-
-
-void HIRC_SETTINGS(u_int8_t* data, int ifp){}
-void HIRC_SFX_OR_VOICE(u_int8_t* data, int ifp){}
-void HIRC_EVENT_ACTION(u_int8_t* data, int ifp){}
-void HIRC_EVENT(u_int8_t* data, int ifp){}
-void HIRC_RANDOM_OR_SEQUENCE_CONTAINER(u_int8_t* data, int ifp){}
-void HIRC_SWITCH_CONTAINER(u_int8_t* data, int ifp){}
-void HIRC_ACTOR_MIXER(u_int8_t* data, int ifp){}
-void HIRC_AUDIO_BUS(u_int8_t* data, int ifp){}
-void HIRC_BLEND_CONTAINER(u_int8_t* data, int ifp){}
-void HIRC_MUSIC_SEGMENT(u_int8_t* data, int ifp){}
-void HIRC_MUSIC_TRACK(u_int8_t* data, int ifp){}
-void HIRC_MUSIC_SWITCH_CONTAINER(u_int8_t* data, int ifp){}
-void HIRC_MUSIC_PLAYLIST_CONTAINER(u_int8_t* data, int ifp){}
-void HIRC_ATTENUATION(u_int8_t* data, int ifp){}
-void HIRC_DIALOGUE_EVENT(u_int8_t* data, int ifp){}
-void HIRC_MOTION_BUS(u_int8_t* data, int ifp){}
-void HIRC_MOTION_FX(u_int8_t* data, int ifp){}
-void HIRC_EFFECT(u_int8_t* data, int ifp){}
-void HIRC_AUXILIARY_BUS(u_int8_t* data, int ifp){}
