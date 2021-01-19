@@ -10,6 +10,9 @@
 short UINT32_S;
 
 
+typedef u_int8_t byte;
+
+
 typedef struct _BKHD_Section
 {
     size_t location;
